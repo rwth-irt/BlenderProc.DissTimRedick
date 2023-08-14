@@ -5,7 +5,7 @@
 source venv/bin/activate
 
 blenderproc run main_lm_upright.py \
-  /home/rd/code/PoseErrors.jl/datasets \
-  cctextures \
+  /home/rd/code/mcmc-depth-images/data/bop \
+  cc_textures \
   output \
-  --num_scenes=1 # 25 images per scene -> 150 images total
+  --num_scenes=5 --views_per_scene=5

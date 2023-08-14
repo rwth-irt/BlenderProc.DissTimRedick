@@ -14,10 +14,16 @@ parser.add_argument(
 )
 parser.add_argument("output_dir", help="Path to where the final files will be saved ")
 parser.add_argument(
+    "--views_per_scene",
+    type=int,
+    default=5,
+    help="How many camera views to generate.",
+)
+parser.add_argument(
     "--num_scenes",
     type=int,
-    default=2000,
-    help="How many scenes with 25 images each to generate",
+    default=5,
+    help="How many scenes to generate",
 )
 args = parser.parse_args()
 
@@ -25,20 +31,20 @@ bproc.init()
 
 # load bop objects into the scene
 target_bop_objs = bproc.loader.load_bop_objs(
-    bop_dataset_path=os.path.join(args.bop_parent_path, "lm"), mm2m=True
+    bop_dataset_path=os.path.join(args.bop_parent_path, "lm"), object_model_unit="mm"
 )
 
 # load distractor bop objects
 tless_dist_bop_objs = bproc.loader.load_bop_objs(
     bop_dataset_path=os.path.join(args.bop_parent_path, "tless"),
     model_type="cad",
-    mm2m=True,
+    object_model_unit="mm",
 )
 ycbv_dist_bop_objs = bproc.loader.load_bop_objs(
-    bop_dataset_path=os.path.join(args.bop_parent_path, "ycbv"), mm2m=True
+    bop_dataset_path=os.path.join(args.bop_parent_path, "ycbv"), object_model_unit="mm"
 )
 tyol_dist_bop_objs = bproc.loader.load_bop_objs(
-    bop_dataset_path=os.path.join(args.bop_parent_path, "tyol"), mm2m=True
+    bop_dataset_path=os.path.join(args.bop_parent_path, "tyol"), object_model_unit="mm"
 )
 
 # load BOP datset intrinsics
@@ -179,7 +185,7 @@ for i in range(args.num_scenes):
     )
 
     cam_poses = 0
-    while cam_poses < 25:
+    while cam_poses < args.views_per_scene:
         # Sample location
         location = bproc.sampler.shell(
             center=[0, 0, 0],
@@ -222,6 +228,7 @@ for i in range(args.num_scenes):
         colors=data["colors"],
         color_file_format="JPEG",
         ignore_dist_thres=10,
+        frames_per_chunk=args.views_per_scene,
     )
 
     for obj in sampled_target_bop_objs + sampled_distractor_bop_objs:

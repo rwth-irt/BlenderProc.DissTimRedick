@@ -9,3 +9,9 @@ Now activate the virtual environment and download the required resources:
 source venv/bin/activate
 blenderproc download cc_textures cc_textures
 ```
+
+# Generating datasets
+Run the scripts
+```sh
+./generate_lm.sh
+```
