@@ -14,4 +14,5 @@ blenderproc download cc_textures cc_textures
 Run the scripts
 ```sh
 ./generate_lm.sh
+./generate_lmo.sh
 ```
