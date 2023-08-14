@@ -1,0 +1,13 @@
+# Mesh files
+*.obj
+*.ply
+*.stl
+*.dae
+*.blend
+
+# BOP toolkit
+bop_toolkit/
+BlenderProc/
+cc_textures/
+output/
+venv/
