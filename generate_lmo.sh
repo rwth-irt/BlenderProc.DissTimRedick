@@ -2,7 +2,7 @@
 # Copyright (c) 2023, Institute of Automatic Control - RWTH Aachen University
 # All rights reserved.
 
-source venv/bin/activate
+. venv/bin/activate
 
 blenderproc run main_lmo_upright.py \
   /home/rd/code/mcmc-depth-images/data/bop \
