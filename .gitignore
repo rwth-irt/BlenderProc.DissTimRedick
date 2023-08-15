@@ -11,3 +11,6 @@ BlenderProc/
 cc_textures/
 output/
 venv/
+
+# Datasets
+bop_datasets/

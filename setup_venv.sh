@@ -10,8 +10,8 @@ pip install --upgrade pip setuptools
 # BOP toolkit for mask and scene_gt_info annotations
 git clone https://github.com/thodan/bop_toolkit
 cd bop_toolkit
-# For some reason installation
-pip install -r requirements.txt -e .
+# cocoapi fails for bop_toolkit requirements.txt
+pip install -r ../bop_toolkit_req.txt -e .
 cd ..
 
 # BlenderProc
