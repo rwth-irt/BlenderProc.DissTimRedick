@@ -14,6 +14,9 @@ cd bop_toolkit
 pip install -r ../bop_toolkit_req.txt -e .
 cd ..
 
+# For model infos and remeshing
+pip install open3d
+
 # BlenderProc
 # pip install blenderproc
 git clone https://github.com/DLR-RM/BlenderProc
