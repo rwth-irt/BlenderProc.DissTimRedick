@@ -230,6 +230,3 @@ for i in range(args.num_scenes):
         ignore_dist_thres=10,
         frames_per_chunk=args.views_per_scene,
     )
-
-    for obj in sampled_target_bop_objs + sampled_distractor_bop_objs:
-        obj.hide(True)

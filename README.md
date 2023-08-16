@@ -16,3 +16,9 @@ Run the scripts
 ./generate_lm.sh
 ./generate_lmo.sh
 ```
+
+Since the *steri* dataset is not officially part of the BOP datasets, you will have to replace the `dataset_params.py` file with the provided one.
+Then simply run
+```sh
+./generate_steri.sh
+```
