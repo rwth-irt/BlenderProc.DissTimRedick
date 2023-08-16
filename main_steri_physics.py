@@ -36,16 +36,9 @@ sampled_bop_objs = bproc.loader.load_bop_objs(
 
 # load distractor bop objects
 distractor_bop_objs = bproc.loader.load_bop_objs(
-    bop_dataset_path=os.path.join(args.bop_parent_path, "itodd"),
+    bop_dataset_path=os.path.join(args.bop_parent_path, "lm"),
     object_model_unit="mm",
     sample_objects=True,
-    num_of_objs_to_sample=3,
-)
-
-tless_dist_bop_objs = bproc.loader.load_bop_objs(
-    bop_dataset_path=os.path.join(args.bop_parent_path, "tless"),
-    model_type="cad",
-    object_model_unit="mm",
     num_of_objs_to_sample=2,
 )
 
@@ -55,10 +48,15 @@ bproc.loader.load_bop_intrinsics(bop_dataset_path=os.path.join("bop_datasets", "
 # set shading and physics properties and randomize PBR materials
 for j, obj in enumerate(sampled_bop_objs + distractor_bop_objs):
     obj.enable_rigidbody(
-        True, friction=100.0, linear_damping=0.99, angular_damping=0.99
+        True,
+        friction=100.0,
+        linear_damping=0.99,
+        angular_damping=0.99,
+        collision_shape="CONVEX_HULL",
     )
     obj.set_shading_mode("auto")
 
+for j, obj in enumerate(sampled_bop_objs):
     mat = obj.get_materials()[0]
     r_col = np.random.uniform(0.5, 0.9)
     g_col = np.random.uniform(0.5, 0.9)
