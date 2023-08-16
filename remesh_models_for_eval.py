@@ -2,8 +2,8 @@ import numpy as np
 import os
 import open3d as o3d
 
-models_in_path = "/home/rd/code/BlenderProc/bop_datasets/steri/models_cad"
-models_out_path = "/home/rd/code/BlenderProc/bop_datasets/steri/models_eval"
+models_in_path = "bop_datasets/steri/models_cad"
+models_out_path = "bop_datasets/steri/models_eval"
 if not os.path.exists(models_out_path):
     os.makedirs(models_out_path)
 
@@ -25,7 +25,7 @@ for obj_id, file_name in enumerate(os.listdir(models_in_path)):
     # Resampling
     n_vertices = 100_000
     points = mesh.sample_points_uniformly(n_vertices, use_triangle_normal=True)
-    radii = o3d.utility.DoubleVector([0.1, 1, 10, 50, 200])
+    radii = o3d.utility.DoubleVector([0.1, 0.5, 1, 5, 50])
     rec_mesh = o3d.geometry.TriangleMesh.create_from_point_cloud_ball_pivoting(
         points, radii
     )

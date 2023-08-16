@@ -10,7 +10,7 @@ import open3d as o3d
 
 # Put the instrument meshes as Stanford PLY in this location
 # The files are renamed according the BOP convention and
-models_path = "/home/rd/code/BlenderProc/bop_datasets/steri/models_cad"
+models_path = "bop_datasets/steri/models_cad"
 
 models_info = {}
 # Iterate over all files in models_path and enumerate the ids

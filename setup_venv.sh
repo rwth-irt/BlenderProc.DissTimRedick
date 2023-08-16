@@ -11,7 +11,8 @@ pip install --upgrade pip setuptools
 git clone https://github.com/thodan/bop_toolkit
 cd bop_toolkit
 # cocoapi fails for bop_toolkit requirements.txt
-pip install -r ../bop_toolkit_req.txt -e .
+pip install -r ../bop_toolkit_req.txt 
+pip install -e .
 cd ..
 
 # For model infos and remeshing
