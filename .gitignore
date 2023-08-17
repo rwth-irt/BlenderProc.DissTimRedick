@@ -11,3 +11,12 @@ BlenderProc/
 cc_textures/
 output/
 venv/
+
+# BOP datasets
+hb/
+itodd/
+lm/
+lmo/
+tless/
+tyol/
+ycbv

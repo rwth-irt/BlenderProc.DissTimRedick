@@ -4,7 +4,7 @@
 
 . venv/bin/activate
 
-blenderproc run main_lmo_upright.py \
+blenderproc run main_itodd_physics.py \
   bop_datasets \
   cc_textures \
   output \

@@ -5,7 +5,7 @@
 . venv/bin/activate
 
 blenderproc run main_lm_upright.py \
-  /home/rd/code/mcmc-depth-images/data/bop \
+  bop_datasets \
   cc_textures \
   output \
   --num_scenes=5 --views_per_scene=5

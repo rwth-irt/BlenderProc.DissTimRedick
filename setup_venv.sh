@@ -19,7 +19,6 @@ cd ..
 pip install open3d
 
 # BlenderProc
-# pip install blenderproc
 git clone https://github.com/DLR-RM/BlenderProc
 cd BlenderProc
 pip install -e .

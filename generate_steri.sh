@@ -5,7 +5,8 @@
 . venv/bin/activate
 
 blenderproc run main_steri_physics.py \
-  /home/rd/code/mcmc-depth-images/data/bop \
+  bop_datasets \
   cc_textures \
   output \
-  --views_per_scene=5
+  --views_per_scene=5 \
+  --num_scenes=5
