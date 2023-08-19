@@ -107,7 +107,7 @@ bproc.renderer.set_max_amount_of_samples(50)
 for i in range(args.num_scenes):
     # Sample bop objects for a scene
     sampled_target_bop_objs = list(
-        np.random.choice(target_bop_objs, size=25, replace=False)
+        np.random.choice(target_bop_objs, size=25, replace=True)
     )
     sampled_distractor_bop_objs = list(
         np.random.choice(tless_dist_bop_objs, size=5, replace=False)
