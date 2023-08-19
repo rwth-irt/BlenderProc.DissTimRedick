@@ -5,9 +5,10 @@
 *.dae
 *.blend
 
-# BOP toolkit
-bop_toolkit/
+# BLenderProc & BOP toolkit
+blenderproc_resources
 BlenderProc/
+bop_toolkit/
 cc_textures/
 output/
 venv/

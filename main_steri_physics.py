@@ -7,10 +7,14 @@ import numpy as np
 import random
 
 parser = argparse.ArgumentParser()
-parser.add_argument("bop_parent_path", help="Path to the bop datasets parent directory")
+parser.add_argument(
+    "bop_parent_path",
+    default="bop_datasets",
+    help="Path to the bop datasets parent directory",
+)
 parser.add_argument(
     "cc_textures_path",
-    default="resources/cctextures",
+    default="cc_textures",
     help="Path to downloaded cc textures",
 )
 parser.add_argument("output_dir", help="Path to where the final files will be saved ")
@@ -35,7 +39,6 @@ target_bop_objs = bproc.loader.load_bop_objs(
     bop_dataset_path=os.path.join(args.bop_parent_path, "steri"), object_model_unit="mm"
 )
 
-
 # load distractor bop objects
 lm_dist_bop_objs = bproc.loader.load_bop_objs(
     bop_dataset_path=os.path.join(args.bop_parent_path, "lm"), object_model_unit="mm"
@@ -52,15 +55,15 @@ bproc.loader.load_bop_intrinsics(
 )
 
 # set shading, hide objects, and physics properties and randomize PBR materials
-for j, obj in enumerate(target_bop_objs + lm_dist_bop_objs + tless_dist_bop_objs):
+for obj in target_bop_objs + lm_dist_bop_objs + tless_dist_bop_objs:
     obj.set_shading_mode("auto")
     obj.hide(True)
     obj.enable_rigidbody(
         True,
         friction=100.0,
-        linear_damping=0.999,
-        angular_damping=0.999,
-        collision_margin=0.002,
+        linear_damping=0.99,
+        angular_damping=0.99,
+        collision_margin=0.0001,
         collision_shape="CONVEX_HULL",
     )
 
@@ -90,6 +93,12 @@ for plane in room_planes:
         angular_damping=0.99,
     )
 
+# assign category ids
+BACKGROUND = 0
+INSTRUMENT = 1
+for obj in target_bop_objs:
+    obj.set_cp("category_id", INSTRUMENT)
+
 # sample light color and strenght from ceiling
 light_plane = bproc.object.create_primitive(
     "PLANE", scale=[3, 3, 1], location=[0, 0, 10]
@@ -107,17 +116,18 @@ cc_textures = bproc.loader.load_ccmaterials(args.cc_textures_path)
 
 # Define a function that samples 6-DoF poses
 def sample_pose_func(obj: bproc.types.MeshObject):
-    min = np.random.uniform([-0.15, -0.15, 0.0], [-0.15, -0.15, 0.0])
-    max = np.random.uniform([0.15, 0.15, 0.4], [0.15, 0.15, 0.6])
-    obj.set_location(np.random.uniform(min, max))
+    obj.set_location(np.random.uniform([-0.2, -0.2, 2], [0.2, 0.2, 4]))
     obj.set_rotation_euler(bproc.sampler.uniformSO3())
 
 
 # activate depth rendering without antialiasing and set amount of samples for color rendering
 bproc.renderer.enable_depth_output(activate_antialiasing=False)
+bproc.renderer.enable_segmentation_output(
+    map_by=["class", "instance"], default_values={"category_id": BACKGROUND}
+)
 bproc.renderer.set_max_amount_of_samples(50)
 
-for i in range(args.num_scenes):
+for scene_id in range(args.num_scenes):
     # Sample bop objects for a scene
     sampled_target_bop_objs = list(
         np.random.choice(target_bop_objs, size=random.randint(15, 25), replace=True)
@@ -173,7 +183,7 @@ for i in range(args.num_scenes):
     )
     light_point.set_location(location)
 
-    # sample CC Texture and assign to room planes
+    # sample CC Textures for background
     random_cc_texture = np.random.choice(cc_textures)
     for plane in room_planes:
         plane.replace_materials(random_cc_texture)
@@ -188,7 +198,7 @@ for i in range(args.num_scenes):
     # Physics Positioning
     bproc.object.simulate_physics_and_fix_final_poses(
         min_simulation_time=3,
-        max_simulation_time=10,
+        max_simulation_time=20,
         check_object_interval=1,
         substeps_per_frame=50,
         solver_iters=25,
@@ -204,9 +214,9 @@ for i in range(args.num_scenes):
         # Sample location
         location = bproc.sampler.shell(
             center=[0, 0, 0],
-            radius_min=0.64,
-            radius_max=0.78,
-            elevation_min=5,
+            radius_min=0.7,
+            radius_max=1.5,
+            elevation_min=30,
             elevation_max=89,
         )
         # Determine point of interest in scene as the object closest to the mean of a subset of objects
@@ -247,5 +257,4 @@ for i in range(args.num_scenes):
     )
 
     for obj in sampled_target_bop_objs + sampled_distractor_bop_objs:
-        obj.disable_rigidbody()
         obj.hide(True)
