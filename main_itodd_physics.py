@@ -228,5 +228,4 @@ for i in range(args.num_scenes):
     )
 
     for obj in sampled_target_bop_objs + sampled_distractor_bop_objs:
-        obj.disable_rigidbody()
         obj.hide(True)
