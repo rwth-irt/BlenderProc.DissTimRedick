@@ -111,10 +111,12 @@ bproc.renderer.enable_depth_output(activate_antialiasing=False)
 bproc.renderer.set_max_amount_of_samples(50)
 
 for i in range(args.num_scenes):
-    # Sample bop objects for a scene
-    sampled_target_bop_objs = list(
-        np.random.choice(target_bop_objs, size=20, replace=True)
-    )
+    # Using np.random.choice(replace=True) would result in the same instance being present multiple times with same pose.
+    sampled_target_bop_objs = []
+    for _ in range(20):
+        obj = np.random.choice(target_bop_objs)
+        sampled_target_bop_objs.append(obj.duplicate())
+
     sampled_distractor_bop_objs = list(
         np.random.choice(itodd_dist_bop_objs, size=2, replace=False)
     )
@@ -233,5 +235,9 @@ for i in range(args.num_scenes):
         frames_per_chunk=args.views_per_scene,
     )
 
-    for obj in sampled_target_bop_objs + sampled_distractor_bop_objs:
+    # delete duplicate objects
+    for obj in sampled_target_bop_objs:
+        obj.delete()
+    # hide distractors
+    for obj in sampled_distractor_bop_objs:
         obj.hide(True)
