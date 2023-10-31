@@ -113,7 +113,7 @@ cc_textures = bproc.loader.load_ccmaterials(args.cc_textures_path)
 
 # Define a function that samples 6-DoF poses
 def sample_pose_func(obj: bproc.types.MeshObject):
-    obj.set_location(np.random.uniform([-0.2, -0.2, 2], [0.2, 0.2, 4]))
+    obj.set_location(np.random.uniform([-0.2, -0.2, 0.3], [0.2, 0.2, 1.0]))
     obj.set_rotation_euler(bproc.sampler.uniformSO3())
 
 
@@ -193,7 +193,7 @@ for scene_id in range(args.num_scenes):
     # Physics Positioning
     bproc.object.simulate_physics_and_fix_final_poses(
         min_simulation_time=1,
-        max_simulation_time=3,
+        max_simulation_time=5,
         check_object_interval=1,
         substeps_per_frame=50,
         solver_iters=25,
@@ -216,7 +216,7 @@ for scene_id in range(args.num_scenes):
         )
         # Determine point of interest in scene as the object closest to the mean of a subset of objects
         poi = bproc.object.compute_poi(
-            np.random.choice(sampled_target_bop_objs, 15, replace=False)
+            np.random.choice(sampled_target_bop_objs, size=15, replace=False)
         )
         # Compute rotation based on vector going from location towards poi
         rotation_matrix = bproc.camera.rotation_from_forward_vec(
@@ -249,6 +249,7 @@ for scene_id in range(args.num_scenes):
         color_file_format="JPEG",
         ignore_dist_thres=10,
         frames_per_chunk=args.views_per_scene,
+        num_worker=6,
     )
 
     # delete duplicate objects

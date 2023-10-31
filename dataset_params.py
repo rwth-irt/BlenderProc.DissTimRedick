@@ -105,7 +105,7 @@ def get_model_params(datasets_path, dataset_name, model_type=None):
         "hb": [6, 10, 11, 12, 13, 14, 18, 24, 29],
         "ycbv": [1, 13, 14, 16, 18, 19, 20, 21],
         "hope": None,  # Not defined yet.
-        "steri": list(range(1, 40)),
+        "steri": None,
     }[dataset_name]
 
     # T-LESS includes two types of object models, CAD and reconstructed.
@@ -298,10 +298,10 @@ def get_split_params(datasets_path, dataset_name, split, split_type=None):
 
     elif dataset_name == "steri":
         p["scene_ids"] = {"train": [], "val": [1], "test": [1]}[split]
-        p["im_size"] = (1920, 1200)
+        p["im_size"] = (1280, 960)
 
         if split == "test":
-            p["depth_range"] = (638.38, 775.97)
+            p["depth_range"] = (400.0, 1500.0)
             p["azimuth_range"] = (0, 2 * math.pi)
             p["elev_range"] = (-0.5 * math.pi, 0.5 * math.pi)
 

@@ -9,4 +9,4 @@ blenderproc run main_steri_physics.py \
   cc_textures \
   output \
   --views_per_scene=5 \
-  --num_scenes=5
+  --num_scenes=10

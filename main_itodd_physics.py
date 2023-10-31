@@ -227,6 +227,7 @@ for i in range(args.num_scenes):
         color_file_format="JPEG",
         ignore_dist_thres=10,
         frames_per_chunk=args.views_per_scene,
+        num_worker=6,
     )
 
     # delete duplicate objects
