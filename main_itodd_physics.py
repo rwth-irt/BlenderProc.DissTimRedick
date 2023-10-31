@@ -31,14 +31,14 @@ bproc.init()
 
 # load bop objects into the scene
 target_bop_objs = bproc.loader.load_bop_objs(
-    bop_dataset_path=os.path.join(args.bop_parent_path, "itodd"), mm2m=True
+    bop_dataset_path=os.path.join(args.bop_parent_path, "itodd"), object_model_unit="mm"
 )
 
 # load distractor bop objects
 tless_dist_bop_objs = bproc.loader.load_bop_objs(
     bop_dataset_path=os.path.join(args.bop_parent_path, "tless"),
     model_type="cad",
-    mm2m=True,
+    object_model_unit="mm",
 )
 
 # load BOP datset intrinsics

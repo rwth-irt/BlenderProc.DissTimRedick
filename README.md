@@ -17,7 +17,13 @@ Run the scripts
 ./generate_lmo.sh
 ```
 
-Since the *steri* dataset is not officially part of the BOP datasets, you will have to replace the `dataset_params.py` file with the provided one.
+Since the *steri* dataset is not officially part of the BOP datasets, you will have to replace the `dataset_params.py` of the Blender installation with the provided one.
+Something like *~/blender/blender-3.5.1-linux-x64/custom-python-packages/lib/python3.10/site-packages/bop_toolkit_lib/dataset_params.py*.
+Reinstall the BOP toolkit:
+```sh
+pip install -e bop_toolkit
+```
+
 Then simply run
 ```sh
 ./generate_steri.sh

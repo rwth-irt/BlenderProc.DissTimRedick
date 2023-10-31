@@ -7,14 +7,6 @@ python3 -m venv venv
 . venv/bin/activate
 pip install --upgrade pip setuptools
 
-# BOP toolkit for mask and scene_gt_info annotations
-git clone https://github.com/thodan/bop_toolkit
-cd bop_toolkit
-# cocoapi fails for bop_toolkit requirements.txt
-pip install -r ../bop_toolkit_req.txt 
-pip install -e .
-cd ..
-
 # For model infos and remeshing
 pip install open3d
 

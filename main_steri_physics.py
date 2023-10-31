@@ -1,10 +1,13 @@
 # Based on https://github.com/DLR-RM/BlenderProc/blob/main/examples/datasets/bop_challenge/main_tless_random.py
 
+# Use custom BOP toolkit with replaced dataset_params
 import blenderproc as bproc
 import argparse
 import os
 import numpy as np
 import random
+
+# WARN BOP uses "category_id" for the obj_id. Do not use this custom property for class segmentation masks
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
@@ -61,8 +64,8 @@ for obj in target_bop_objs + lm_dist_bop_objs + tless_dist_bop_objs:
     obj.enable_rigidbody(
         True,
         friction=100.0,
-        linear_damping=0.99,
-        angular_damping=0.99,
+        linear_damping=0.999,
+        angular_damping=0.999,
         collision_margin=0.0001,
         collision_shape="CONVEX_HULL",
     )
@@ -89,15 +92,9 @@ for plane in room_planes:
         collision_shape="BOX",
         mass=1.0,
         friction=100.0,
-        linear_damping=0.99,
-        angular_damping=0.99,
+        linear_damping=0.999,
+        angular_damping=0.999,
     )
-
-# assign category ids
-BACKGROUND = 0
-INSTRUMENT = 1
-for obj in target_bop_objs:
-    obj.set_cp("category_id", INSTRUMENT)
 
 # sample light color and strenght from ceiling
 light_plane = bproc.object.create_primitive(
@@ -122,9 +119,6 @@ def sample_pose_func(obj: bproc.types.MeshObject):
 
 # activate depth rendering without antialiasing and set amount of samples for color rendering
 bproc.renderer.enable_depth_output(activate_antialiasing=False)
-bproc.renderer.enable_segmentation_output(
-    map_by=["class", "instance"], default_values={"category_id": BACKGROUND}
-)
 bproc.renderer.set_max_amount_of_samples(50)
 
 for scene_id in range(args.num_scenes):
@@ -198,8 +192,8 @@ for scene_id in range(args.num_scenes):
 
     # Physics Positioning
     bproc.object.simulate_physics_and_fix_final_poses(
-        min_simulation_time=3,
-        max_simulation_time=20,
+        min_simulation_time=1,
+        max_simulation_time=3,
         check_object_interval=1,
         substeps_per_frame=50,
         solver_iters=25,
